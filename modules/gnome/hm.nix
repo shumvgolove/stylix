@@ -81,7 +81,7 @@ mkTarget {
       }
     )
     (
-      { inputs, colors }:
+      { inputs, colors, polarity }:
       let
         extension = pkgs.gnomeExtensions.user-themes;
 
@@ -127,7 +127,7 @@ mkTarget {
           dataFile."themes/Stylix/gnome-shell/gnome-shell.css" = {
             source =
               let
-                theme = pkgs.callPackage ./theme.nix { inherit inputs colors; };
+                theme = pkgs.callPackage ./theme.nix { inherit inputs colors; themePolarity = polarity; };
               in
               "${theme}/share/gnome-shell/gnome-shell.css";
 

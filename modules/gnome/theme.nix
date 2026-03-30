@@ -4,6 +4,7 @@
   glib,
   colors,
   inputs,
+  themePolarity,
 }:
 let
   colorsScss = colors {
@@ -25,9 +26,10 @@ stdenv.mkDerivation {
     glib.dev
   ];
   buildPhase = ''
-    sass data/theme/gnome-shell-light.scss \
-      >data/theme/gnome-shell-light.css
-    cp data/theme/gnome-shell-{light,dark}.css
+    sass data/theme/gnome-shell-${themePolarity}.scss \
+      >data/theme/gnome-shell.css
+    cp data/theme/gnome-shell.css data/theme/gnome-shell-light.css
+    cp data/theme/gnome-shell.css data/theme/gnome-shell-dark.css
     glib-compile-resources \
       --sourcedir=data/theme \
       data/gnome-shell-theme.gresource.xml
@@ -35,7 +37,7 @@ stdenv.mkDerivation {
 
   installPhase = ''
     mkdir -p $out/share/gnome-shell
-    mv data/theme/gnome-shell-light.css $out/share/gnome-shell/gnome-shell.css
+    mv data/theme/gnome-shell.css $out/share/gnome-shell/gnome-shell.css
     mv data/gnome-shell-theme.gresource $out/share/gnome-shell/gnome-shell-theme.gresource
   '';
 }
